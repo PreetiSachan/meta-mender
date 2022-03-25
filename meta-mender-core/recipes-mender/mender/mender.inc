@@ -25,6 +25,8 @@ inherit go
 
 inherit systemd
 
+export GO111MODULE = "off"
+
 SYSTEMD_SERVICE:${PN} = "mender.service"
 FILES:${PN} += "${systemd_unitdir}/system/mender.service \
                 ${sysconfdir}/mender.conf \
