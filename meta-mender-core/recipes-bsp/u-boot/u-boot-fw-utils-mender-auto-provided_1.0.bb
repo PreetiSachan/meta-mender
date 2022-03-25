@@ -19,10 +19,10 @@ LICENSE = "GPL-2.0"
 LIC_FILES_CHKSUM = "file://dummy-license.txt;md5=f02e326f800ee26f04df7961adbf7c0a"
 
 PROVIDES = "u-boot-fw-utils"
-RPROVIDES_${PN} = "u-boot-fw-utils"
+RPROVIDES:${PN} = "u-boot-fw-utils"
 
-INSANE_SKIP_${PN} = "already-stripped"
-EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" V=1'
+INSANE_SKIP:${PN} = "already-stripped"
+EXTRA_OEMAKE:class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" V=1'
 DEPENDS += "bison-native"
 
 S = "${WORKDIR}/src-tar"

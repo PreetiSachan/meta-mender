@@ -14,13 +14,13 @@ MENDER_UBOOT_CONFIG_SYS_MMC_ENV_PART ??= "0"
 ################################################################################
 # Patches.
 ################################################################################
-FILESEXTRAPATHS_prepend := "${THISDIR}/patches:${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/patches:${THISDIR}/files:"
 
-SRC_URI_append_mender-uboot = " file://0001-Add-missing-header-which-fails-on-recent-GCC.patch"
-SRC_URI_append_mender-uboot = " file://0002-Generic-boot-code-for-Mender.patch"
-SRC_URI_append_mender-uboot = " file://0003-Integration-of-Mender-boot-code-into-U-Boot.patch"
+SRC_URI:append_mender-uboot = " file://0001-Add-missing-header-which-fails-on-recent-GCC.patch"
+SRC_URI:append_mender-uboot = " file://0002-Generic-boot-code-for-Mender.patch"
+SRC_URI:append_mender-uboot = " file://0003-Integration-of-Mender-boot-code-into-U-Boot.patch"
 
-SRC_URI_append_mender-uboot = "${@bb.utils.contains('MENDER_UBOOT_AUTO_CONFIGURE', \
+SRC_URI:append_mender-uboot = "${@bb.utils.contains('MENDER_UBOOT_AUTO_CONFIGURE', \
                                                     '1', \
                                                     ' file://0004-Disable-CONFIG_BOOTCOMMAND-and-enable-CONFIG_MENDER_.patch', \
                                                     '', \
@@ -270,7 +270,7 @@ python() {
         bb.build.addtask('do_check_mender_defines', 'do_compile', 'do_configure', d)
 }
 
-do_compile_append_mender-uboot_mender-ubi() {
+do_compile:append_mender-uboot_mender-ubi() {
     # Doing this in do_compile instead of do_configure is actually a bit late,
     # but the U-Boot recipe doesn't separate between the stages.
 
@@ -285,7 +285,7 @@ do_compile_append_mender-uboot_mender-ubi() {
     fi
 }
 
-SRC_URI_append_mender-uboot = "${@bb.utils.contains('MENDER_UBOOT_AUTO_CONFIGURE', \
+SRC_URI:append_mender-uboot = "${@bb.utils.contains('MENDER_UBOOT_AUTO_CONFIGURE', \
                                                     '1', \
                                                     ' file://uboot_auto_configure.sh \
                                                       file://uboot_auto_patch.sh \
@@ -351,7 +351,7 @@ do_mender_uboot_auto_configure[depends] = "${PN}:do_prepare_recipe_sysroot"
 # This is for the externalsrc class: Make sure we don't try to edit a user
 # provided directory. Only temporary checkouts from source control should be
 # edited.
-SRCTREECOVEREDTASKS_append = " do_mender_uboot_auto_configure"
+SRCTREECOVEREDTASKS:append = " do_mender_uboot_auto_configure"
 
 do_save_mender_auto_configured_patch() {
     diff -r -u ${MENDER_UBOOT_OLD_SRC} ${S} > ${WORKDIR}/mender_auto_configured.patch || true

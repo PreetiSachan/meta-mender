@@ -31,9 +31,9 @@ class TestDeltaUpdateModule:
             prepared_test_build["build_dir"],
             prepared_test_build["bitbake_corebase"],
             bitbake_image,
-            ['IMAGE_INSTALL_append = " mender-binary-delta"'],
+            ['IMAGE_INSTALL:append = " mender-binary-delta"'],
             [
-                'BBLAYERS_append = " %s/../meta-mender-commercial"'
+                'BBLAYERS:append = " %s/../meta-mender-commercial"'
                 % bitbake_variables["LAYERDIR_MENDER"]
             ],
         )

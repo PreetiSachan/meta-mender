@@ -3,7 +3,7 @@
 
 inherit mender-helpers
 
-IMAGE_CMD_bootimg() {
+IMAGE_CMD:bootimg() {
     if [ ${MENDER_BOOT_PART_SIZE_MB} -ne 0 ]; then
         mender_merge_bootfs_and_image_boot_files
         rm -f "${WORKDIR}/boot.vfat"

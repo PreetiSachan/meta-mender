@@ -1,2 +1,2 @@
-DEPENDS_remove = "openssl"
-DEPENDS_append = " openssl10"
+DEPENDS:remove = "openssl"
+DEPENDS:append = " openssl10"

@@ -337,8 +337,8 @@ def build_image_fn(request, prepared_test_build_base, bitbake_image):
             prepared_test_build_base["bitbake_corebase"],
             bitbake_image,
             [
-                'SYSTEMD_AUTO_ENABLE_pn-mender = "disable"',
-                'EXTRA_IMAGE_FEATURES_append = " ssh-server-openssh"',
+                'SYSTEMD_AUTO_ENABLE:pn-mender = "disable"',
+                'EXTRA_IMAGE_FEATURES:append = " ssh-server-openssh"',
             ],
         )
         return prepared_test_build_base["build_dir"]

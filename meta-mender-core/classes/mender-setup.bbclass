@@ -96,7 +96,7 @@ MENDER_DEVICE_TYPE ??= "${MENDER_DEVICE_TYPE_DEFAULT}"
 MENDER_DEVICE_TYPE_DEFAULT = "${MACHINE}"
 
 # To tell the difference from a beaglebone-yocto image with only U-Boot.
-MENDER_DEVICE_TYPE_DEFAULT_beaglebone-yocto_mender-grub = "${MACHINE}-grub"
+MENDER_DEVICE_TYPE_DEFAULT:beaglebone-yocto_mender-grub = "${MACHINE}-grub"
 
 # Space separated list of device types compatible with the built update.
 MENDER_DEVICE_TYPES_COMPATIBLE ??= "${MENDER_DEVICE_TYPES_COMPATIBLE_DEFAULT}"
@@ -202,7 +202,7 @@ MENDER_PERSISTENT_CONFIGURATION_VARS ?= "RootfsPartA RootfsPartB"
 
 # --------------------------- END OF CONFIGURATION -----------------------------
 
-IMAGE_INSTALL_append = " mender"
+IMAGE_INSTALL:append = " mender"
 IMAGE_CLASSES += "mender-part-images mender-ubimg mender-artifactimg mender-dataimg mender-bootimg mender-datatar"
 
 # Originally defined in bitbake.conf. We define them here so that images with
@@ -214,8 +214,8 @@ IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MENDER_DEVICE_TYPE}"
 # MENDER_FEATURES_ENABLE and MENDER_FEATURES_DISABLE map to
 # DISTRO_FEATURES_BACKFILL and DISTRO_FEATURES_BACKFILL_CONSIDERED,
 # respectively.
-DISTRO_FEATURES_BACKFILL_append = " ${MENDER_FEATURES_ENABLE}"
-DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " ${MENDER_FEATURES_DISABLE}"
+DISTRO_FEATURES_BACKFILL:append = " ${MENDER_FEATURES_ENABLE}"
+DISTRO_FEATURES_BACKFILL_CONSIDERED:append = " ${MENDER_FEATURES_DISABLE}"
 
 python() {
     # Add all possible Mender features here. This list is here to have an
@@ -285,7 +285,7 @@ python() {
             if feature not in mender_features:
                 bb.fatal("%s from MENDER_FEATURES_ENABLE or DISTRO_FEATURES is not a valid Mender feature."
                          % feature)
-            d.setVar('OVERRIDES_append', ':%s' % feature)
+            d.setVar('OVERRIDES:append', ':%s' % feature)
 
             # Verify that all 'mender-' features are added using MENDER_FEATURES
             # variables. This is important because we base some decisions on
@@ -404,7 +404,7 @@ python mender_vars_handler() {
             json.dump(mender_vars, f, sort_keys=True, indent=4)
 }
 
-MENDER_DATA_PART_FSTAB_OPTS_append_mender-systemd = "${@bb.utils.contains('DISTRO_FEATURES', 'mender-growfs-data', ',x-systemd.growfs', '', d)}"
+MENDER_DATA_PART_FSTAB_OPTS:append_mender-systemd = "${@bb.utils.contains('DISTRO_FEATURES', 'mender-growfs-data', ',x-systemd.growfs', '', d)}"
 
 # Including these does not mean that all these features will be enabled, just
 # that their configuration will be considered. Use DISTRO_FEATURES to enable and

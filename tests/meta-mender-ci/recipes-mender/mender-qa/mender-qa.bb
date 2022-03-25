@@ -29,12 +29,12 @@ do_install() {
 
 }
 
-FILES_${PN} = "\
+FILES:${PN} = "\
             ${bindir}/* \
             ${datadir}/mender-qa \
             "
 
-RDEPENDS_${PN} = "bash"
+RDEPENDS:${PN} = "bash"
 
 # package carries machine specific scripts
 PACKAGE_ARCH = "${MACHINE_ARCH}"

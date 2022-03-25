@@ -14,7 +14,7 @@
 # supplied alongside this recipe.
 ################################################################################
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 LICENSE = "GPL-3.0"
 SRC_URI = "file://COPYING;subdir=src"
@@ -24,9 +24,9 @@ S = "${WORKDIR}/src"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 PROVIDES = "grub-efi"
-RPROVIDES_${PN} = "grub-efi"
+RPROVIDES:${PN} = "grub-efi"
 
-SRC_URI_append_arm = " file://grub-efi-bootarm.efi"
+SRC_URI:append:arm = " file://grub-efi-bootarm.efi"
 
 COMPATIBLE_HOSTS = "arm"
 
@@ -43,4 +43,4 @@ do_deploy() {
 }
 addtask do_deploy after do_patch
 
-INSANE_SKIP_${PN} = "already-stripped"
+INSANE_SKIP:${PN} = "already-stripped"

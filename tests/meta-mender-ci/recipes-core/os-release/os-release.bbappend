@@ -1,9 +1,9 @@
-FILES_${PN}_append = " /data${nonarch_libdir}/os-release /data${sysconfdir}/os-release"
-FILES_${PN}-staticdev_remove = "${nonarch_libdir}/os-release/*.a"
-FILES_${PN}-dev_remove = "${nonarch_libdir}/os-release/*.la"
-FILES_${PN}_remove = "${nonarch_libdir}/os-release/*"
+FILES:${PN}:append = " /data${nonarch_libdir}/os-release /data${sysconfdir}/os-release"
+FILES:${PN}-staticdev:remove = "${nonarch_libdir}/os-release/*.a"
+FILES:${PN}-dev:remove = "${nonarch_libdir}/os-release/*.la"
+FILES:${PN}:remove = "${nonarch_libdir}/os-release/*"
 
-do_install_append() {
+do_install:append() {
     # Enable os-release to be changed from a R/O rootfs.
 
     mkdir -p ${D}/data${sysconfdir}

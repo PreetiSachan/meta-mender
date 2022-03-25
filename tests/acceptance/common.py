@@ -584,7 +584,7 @@ def versions_of_recipe(recipe):
 
 
 def version_is_minimum(bitbake_variables, component, min_version):
-    version = bitbake_variables.get("PREFERRED_VERSION_pn-%s" % component)
+    version = bitbake_variables.get("PREFERRED_VERSION:pn-%s" % component)
     if version is None:
         version = bitbake_variables.get("PREFERRED_VERSION_%s" % component)
     if version is None:

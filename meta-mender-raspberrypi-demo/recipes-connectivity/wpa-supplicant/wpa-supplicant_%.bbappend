@@ -1,13 +1,13 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 SRC_URI += " file://wpa_supplicant-wlan0.conf"
 
-FILES_${PN} += "${sysconfdir}/wpa_supplicant/wpa_supplicant-wlan0.conf"
+FILES:${PN} += "${sysconfdir}/wpa_supplicant/wpa_supplicant-wlan0.conf"
 
 MENDER_DEMO_WIFI_SSID ?= "ssid"
 MENDER_DEMO_WIFI_PASSKEY ?= "password"
 
-do_install_append() {
+do_install:append() {
 
   install -d ${D}${sysconfdir}/wpa_supplicant
 

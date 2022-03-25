@@ -181,7 +181,7 @@ class TestUbootAutomation:
         print(msg)
         pytest.skip(msg)
 
-    def board_not_arm(self, bitbake_variables, config):
+    def board_not:arm(self, bitbake_variables, config):
         if config in ["xilinx_versal_virt_defconfig"]:
             # u-boot-v2019.01: There is some weird infinite loop in the conf
             # script of this particular board. Just mark it as "not ARM", which
@@ -231,7 +231,7 @@ class TestUbootAutomation:
             if not config.endswith("_defconfig"):
                 continue
 
-            if self.board_not_arm(bitbake_variables, config):
+            if self.board_not:arm(bitbake_variables, config):
                 continue
 
             mtdids = None
@@ -470,7 +470,7 @@ class TestUbootAutomation:
                 prepared_test_build["build_dir"],
                 prepared_test_build["bitbake_corebase"],
                 bitbake_image,
-                ['MENDER_UBOOT_AUTO_CONFIGURE_pn-u-boot = "0"'],
+                ['MENDER_UBOOT_AUTO_CONFIGURE:pn-u-boot = "0"'],
                 capture=True,
             )
 
@@ -536,8 +536,8 @@ class TestUbootAutomation:
                 prepared_test_build["bitbake_corebase"],
                 bitbake_image,
                 [
-                    'MENDER_UBOOT_AUTO_CONFIGURE_pn-u-boot = "0"',
-                    'TEST_SRC_URI_APPEND_pn-u-boot = " file://%s"'
+                    'MENDER_UBOOT_AUTO_CONFIGURE:pn-u-boot = "0"',
+                    'TEST_SRC_URI_APPEND:pn-u-boot = " file://%s"'
                     % os.path.basename(new_patch_name),
                 ],
                 target="-c clean u-boot",
@@ -620,8 +620,8 @@ class TestUbootAutomation:
                 prepared_test_build["bitbake_corebase"],
                 bitbake_image,
                 [
-                    'MENDER_UBOOT_AUTO_CONFIGURE_pn-u-boot = "0"',
-                    'TEST_SRC_URI_APPEND_pn-u-boot = " file://%s"'
+                    'MENDER_UBOOT_AUTO_CONFIGURE:pn-u-boot = "0"',
+                    'TEST_SRC_URI_APPEND:pn-u-boot = " file://%s"'
                     % os.path.basename(new_patch_name),
                 ],
                 target="-c clean u-boot",

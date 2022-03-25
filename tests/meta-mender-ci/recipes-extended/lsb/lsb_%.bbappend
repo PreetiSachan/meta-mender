@@ -1,6 +1,6 @@
-FILES_${PN}_append = " /data${base_bindir}/lsb_release /data${bindir}/lsb_release"
+FILES:${PN}:append = " /data${base_bindir}/lsb_release /data${bindir}/lsb_release"
 
-do_install_append() {
+do_install:append() {
     # Enable binary to be updated from R/O rootfs.
 
     mkdir -p ${D}/data${bindir}

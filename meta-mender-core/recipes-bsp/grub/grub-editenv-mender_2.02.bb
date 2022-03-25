@@ -2,7 +2,7 @@
 # upstream grub recipe doesn't work. A lot of the configuration and patches in
 # here are taken from the upstream recipe.
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/patches:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/patches:"
 
 LICENSE = "GPLv3"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "660ee136fbcee08858516ed4de2ad87068bfe1b6b8b37896ce3529ff05
 S = "${WORKDIR}/grub-${PV}"
 
 PROVIDES = "grub-editenv"
-RPROVIDES_${PN} = "grub-editenv"
+RPROVIDES:${PN} = "grub-editenv"
 
 inherit autotools gettext texinfo
 
@@ -31,7 +31,7 @@ EXTRA_OECONF = "--with-platform=efi \
                 --enable-largefile \
 "
 
-do_configure_prepend() {
+do_configure:prepend() {
 	# The grub2 configure script uses variables such as TARGET_CFLAGS etc
 	# for its own purposes. Remove the OE versions from the environment to
 	# avoid conflicts.

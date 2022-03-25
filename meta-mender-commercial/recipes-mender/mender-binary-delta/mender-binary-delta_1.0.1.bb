@@ -1,9 +1,9 @@
 LICENSE = "CLOSED"
 LICENSE_FLAGS = "commercial"
 
-SUB_FOLDER_arm = "arm"
-SUB_FOLDER_aarch64 = "aarch64"
-SUB_FOLDER_x86-64 = "x86_64"
+SUB_FOLDER:arm = "arm"
+SUB_FOLDER:aarch64 = "aarch64"
+SUB_FOLDER:x86-64 = "x86_64"
 
 SRC_URI = "file://${SUB_FOLDER}/mender-binary-delta"
 
@@ -12,14 +12,14 @@ COMPATIBLE_HOSTS = "arm|aarch64|x86_64"
 # "lsb" is needed because Yocto by default does not provide a cross platform
 # dynamic linker. On x86_64 this manifests as a missing
 # `/lib64/ld-linux-x86-64.so.2`
-RDEPENDS_${PN} = "lsb xz"
+RDEPENDS:${PN} = "lsb xz"
 
-FILES_${PN} = " \
+FILES:${PN} = " \
     ${sysconfdir}/mender/mender-binary-delta.conf \
     ${datadir}/mender/modules/v3/mender-binary-delta \
 "
 
-INSANE_SKIP_${PN} = "already-stripped"
+INSANE_SKIP:${PN} = "already-stripped"
 
 do_version_check() {
     cp ${WORKDIR}/${SUB_FOLDER}/mender-binary-delta ${WORKDIR}/

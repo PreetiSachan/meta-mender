@@ -1,7 +1,7 @@
 DESCRIPTION = "Mender tool for doing OTA software updates."
 HOMEPAGE = "https://mender.io"
 
-RDEPENDS_${PN}_append_mender-growfs-data_mender-systemd = " parted"
+RDEPENDS:${PN}:append_mender-growfs-data_mender-systemd = " parted"
 
 def cert_location_if_server_crt_in(src_uri, d):
     for src in src_uri.split():
@@ -25,8 +25,8 @@ inherit go
 
 inherit systemd
 
-SYSTEMD_SERVICE_${PN} = "mender.service"
-FILES_${PN} += "${systemd_unitdir}/system/mender.service \
+SYSTEMD_SERVICE:${PN} = "mender.service"
+FILES:${PN} += "${systemd_unitdir}/system/mender.service \
                 ${sysconfdir}/mender.conf \
                 /data/mender/device_type \
                 /data/mender/mender.conf \
@@ -35,28 +35,28 @@ FILES_${PN} += "${systemd_unitdir}/system/mender.service \
 
 SYSROOT_DIRS += "/data"
 
-SRC_URI_append_mender-image_mender-systemd = " file://mender-data-dir.service"
-SRC_URI_append_mender-persist-systemd-machine-id = " file://mender-systemd-machine-id.service \
+SRC_URI:append_mender-image_mender-systemd = " file://mender-data-dir.service"
+SRC_URI:append_mender-persist-systemd-machine-id = " file://mender-systemd-machine-id.service \
                                                      file://mender-set-systemd-machine-id.sh"
-FILES_${PN}_append_mender-image_mender-systemd = " ${systemd_unitdir}/system/mender-data-dir.service \
+FILES:${PN}:append_mender-image_mender-systemd = " ${systemd_unitdir}/system/mender-data-dir.service \
                                                    ${systemd_unitdir}/system/mender.service.wants/mender-data-dir.service"
-FILES_${PN}_append_mender-growfs-data_mender-systemd = " ${systemd_unitdir}/system/mender-grow-data.service \
+FILES:${PN}:append_mender-growfs-data_mender-systemd = " ${systemd_unitdir}/system/mender-grow-data.service \
                                                          ${systemd_unitdir}/system/data.mount.wants/mender-grow-data.service"
 
-FILES_${PN}_append_mender-persist-systemd-machine-id = " ${systemd_unitdir}/system/mender-systemd-machine-id.service \
+FILES:${PN}:append_mender-persist-systemd-machine-id = " ${systemd_unitdir}/system/mender-systemd-machine-id.service \
                                                          ${systemd_unitdir}/system/mender.service.wants/mender-systemd-machine-id.service \
                                                          ${bindir}/mender-set-systemd-machine-id.sh"
 
 # Go binaries produce unexpected effects that the Yocto QA mechanism doesn't
 # like. We disable those checks here.
-INSANE_SKIP_${PN} = "ldflags textrel"
-INSANE_SKIP_${PN}-ptest = "ldflags textrel"
+INSANE_SKIP:${PN} = "ldflags textrel"
+INSANE_SKIP:${PN}-ptest = "ldflags textrel"
 
 GO_IMPORT = "github.com/mendersoftware/mender"
 
-PACKAGECONFIG_append = "${@bb.utils.contains('DISTRO_FEATURES', 'mender-install', ' mender-install', '', d)}"
-PACKAGECONFIG_append = "${@bb.utils.contains('DISTRO_FEATURES', 'mender-uboot', ' u-boot', '', d)}"
-PACKAGECONFIG_append = "${@bb.utils.contains('DISTRO_FEATURES', 'mender-grub', ' grub', '', d)}"
+PACKAGECONFIG:append = "${@bb.utils.contains('DISTRO_FEATURES', 'mender-install', ' mender-install', '', d)}"
+PACKAGECONFIG:append = "${@bb.utils.contains('DISTRO_FEATURES', 'mender-uboot', ' u-boot', '', d)}"
+PACKAGECONFIG:append = "${@bb.utils.contains('DISTRO_FEATURES', 'mender-grub', ' grub', '', d)}"
 
 PACKAGECONFIG[mender-install] = ",,,mender-artifact-info ca-certificates"
 PACKAGECONFIG[u-boot] = ",,,u-boot-fw-utils"
@@ -69,7 +69,7 @@ PACKAGECONFIG[modules] = ",,,bash"
 # NOTE: Splits the mender.conf file by default into a transient and a persistent config. Needs to be
 # explicitly disabled if this is not to apply.
 PACKAGECONFIG[split-mender-config] = ",,,"
-PACKAGECONFIG_append = " split-mender-config"
+PACKAGECONFIG:append = " split-mender-config"
 
 do_compile() {
     GOPATH="${B}:${S}"
@@ -244,13 +244,13 @@ do_install() {
     echo ${MENDER_ROOTFS_PART_B} >> ${D}${sysconfdir}/udev/mount.blacklist.d/mender
 }
 
-do_install_append_mender-image_mender-systemd() {
+do_install:append_mender-image_mender-systemd() {
     install -m 644 ${WORKDIR}/mender-data-dir.service ${D}${systemd_unitdir}/system/
     install -d -m 755 ${D}${systemd_unitdir}/system/mender.service.wants
     ln -sf ../mender-data-dir.service ${D}${systemd_unitdir}/system/mender.service.wants/
 }
 
-do_install_append_mender-growfs-data_mender-systemd() {
+do_install:append_mender-growfs-data_mender-systemd() {
     cat <<-EOF > ${D}${systemd_unitdir}/system/mender-grow-data.service
 [Unit]
 Description=Mender service to grow data partition size
@@ -271,7 +271,7 @@ EOF
     ln -sf ../mender-grow-data.service ${D}${systemd_unitdir}/system/data.mount.wants/
 }
 
-do_install_append_mender-persist-systemd-machine-id() {
+do_install:append_mender-persist-systemd-machine-id() {
     install -m 644 ${WORKDIR}/mender-systemd-machine-id.service ${D}${systemd_unitdir}/system/
     install -d -m 755 ${D}${systemd_unitdir}/system/mender.service.wants
     ln -sf ../mender-systemd-machine-id.service ${D}${systemd_unitdir}/system/mender.service.wants/
